@@ -1,4 +1,23 @@
-loadstring([[
+-- АнтиКик (AntiKick)
+if not _G.AntiKickEnabled then
+    _G.AntiKickEnabled = true
+    local mt = getrawmetatable(game)
+    local oldNamecall = mt.__namecall
+    setreadonly(mt, false)
+
+    mt.__namecall = newcclosure(function(self, ...)
+        local method = getnamecallmethod()
+        if method == "Kick" then
+            print("Попытка кика заблокирована!")
+            return
+        end
+        return oldNamecall(self, ...)
+    end)
+
+    setreadonly(mt, true)
+end
+
+-- Дальше твой основной GUI кодloadstring([[
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
